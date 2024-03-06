@@ -1,29 +1,25 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
+const db = require('./db');
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const db = [
-    { id: 1, author: 'John Doe', text: 'This company is worth every coin!' },
-    { id: 2, author: 'Amanda Doe', text: 'They really know how to make you happy.' },
-];
-
 app.get('/testimonials', (req, res) => {
-    res.json(db);
+    res.json(db.testimonials);
 });
 
 app.get('/testimonials/random', (req, res) => {
-    const randomIndex = Math.floor(Math.random() * db.length);
-    const randomTestimonial = db[randomIndex];
+    const randomIndex = Math.floor(Math.random() * db.testimonials.length);
+    const randomTestimonial = db.testimonials[randomIndex];
     res.json(randomTestimonial);
 });
 
 app.get('/testimonials/:id', (req, res) => {
     const testimonialId = parseInt(req.params.id);
-    const testimonial = db.find(testimonial => testimonial.id === testimonialId);
+    const testimonial = db.testimonials.find(testimonial => testimonial.id === testimonialId);
     if (testimonial) {
         res.json(testimonial);
     } else {
@@ -41,7 +37,7 @@ app.post('/testimonials', (req, res) => {
             author,
             text
         };
-        db.push(newTestimonial);
+        db.testimonials.push(newTestimonial);
         res.json({ message: 'OK' });
     }
 });
@@ -49,7 +45,7 @@ app.post('/testimonials', (req, res) => {
 app.put('/testimonials/:id', (req, res) => {
     const { author, text } = req.body;
     const testimonialId = parseInt(req.params.id);
-    const testimonial = db.find(testimonial => testimonial.id === testimonialId);
+    const testimonial = db.testimonials.find(testimonial => testimonial.id === testimonialId);
     if (!testimonial) {
         res.status(404).json({ message: 'Testimonial not found' });
     } else {
@@ -60,13 +56,49 @@ app.put('/testimonials/:id', (req, res) => {
 });
 
 app.delete('/testimonials/:id', (req, res) => {
-    const index = db.findIndex(testimonial => testimonial.id === parseInt(req.params.id));
+    const index = db.testimonials.findIndex(testimonial => testimonial.id === parseInt(req.params.id));
     if (index === -1) {
         res.status(404).json({ message: 'Testimonial not found' });
     } else {
-        db.splice(index, 1);
+        db.testimonials.splice(index, 1);
         res.json({ message: 'OK' });
     }
+});
+
+app.get('/concerts', (req, res) => {
+    res.json(db.concerts);
+});
+
+app.get('/concerts/:id', (req, res) => {
+    const concertId = parseInt(req.params.id);
+    const concert = db.concerts.find(concert => concert.id === concertId);
+    if (concert) {
+        res.json(concert);
+    } else {
+        res.status(404).json({ message: 'Concert not found' });
+    }
+});
+
+app.post('/concerts', (req, res) => {
+    const { performer, genre, price, day, image } = req.body;
+    if (!performer || !genre  || !price  || !day  || !image) {
+        res.status(400).json({ message: 'All fields are required' });
+    } else {
+        const newConcert = {
+            id: uuidv4(),
+            performer, 
+            genre, 
+            price, 
+            day, 
+            image
+        };
+        db.concerts.push(newConcert);
+        res.json({ message: 'OK' });
+    }
+});
+
+app.use((req, res) => {
+    res.status(404).json({ message: 'Not found...' });
 });
 
 app.listen(8000, () => {

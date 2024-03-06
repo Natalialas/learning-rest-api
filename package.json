@@ -2,14 +2,12 @@
   "name": "learning-rest-api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:Natalialas/learning-rest-api.git",
-  "author": "Natalia Laszczkowska <natalia.laszczkowskax@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "dependencies": {
     "express": "4.17.1",
     "uuid": "^9.0.1"
-  },
-  "scripts": {
-    "serve": "nodemon server.js"
   }
 }
