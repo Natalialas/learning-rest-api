@@ -1,8 +1,11 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const db = require('./db/db');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const seatsRoutes = require('./routes/seats.routes');

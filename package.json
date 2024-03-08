@@ -4,9 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon server.js"
+    "serve": "nodemon server.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "4.17.1",
     "uuid": "^9.0.1"
   }
