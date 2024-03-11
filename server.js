@@ -2,6 +2,7 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const db = require('./db/db');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
@@ -17,10 +18,17 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', seatsRoutes);
 app.use('/api', concertsRoutes);
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '/client/build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/build/index.html'));
+});
+
 app.use((req, res) => {
     res.status(404).json({ message: 'Not found...' });
 });
 
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
     console.log('Server is running on port: 8000');
 });
