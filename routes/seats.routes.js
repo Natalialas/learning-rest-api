@@ -21,15 +21,20 @@ router.route('/seats').post((req, res) => {
     if (!day || !seat  || !client  || !email ) {
         res.status(400).json({ message: 'All fields are required' });
     } else {
-        const newSeat = {
-            id: uuidv4(),
-            day, 
-            seat, 
-            client,
-            email
-        };
-        db.seats.push(newSeat);
-        res.json({ message: 'OK' });
+        const isSeatTaken = db.seats.some(existingSeat => existingSeat.day === day && existingSeat.seat === seat);
+        if (isSeatTaken) {
+            res.status(409).json({ message: 'The slot is already taken...' });
+        } else {
+            const newSeat = {
+                id: uuidv4(),
+                day, 
+                seat, 
+                client,
+                email
+            };
+            db.seats.push(newSeat);
+            res.json({ message: 'OK' });
+        }
     }
 });
 
