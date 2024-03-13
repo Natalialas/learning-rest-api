@@ -3,8 +3,13 @@ const { v4: uuidv4 } = require('uuid');
 const db = require('./db/db');
 const cors = require('cors');
 const path = require('path');
+const socket = require('socket.io');
 
 const app = express();
+const server = app.listen(process.env.PORT || 8000, () => {
+    console.log('Server is running on port: 8000');
+});
+const io = socket(server);
 
 app.use(cors());
 
@@ -18,6 +23,10 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', seatsRoutes);
 app.use('/api', concertsRoutes);
 
+io.on('connection', (socket) => {
+    console.log('New socket!');
+});
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
 
@@ -27,8 +36,4 @@ app.get('*', (req, res) => {
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Not found...' });
-});
-
-app.listen(process.env.PORT || 8000, () => {
-    console.log('Server is running on port: 8000');
 });
