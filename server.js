@@ -12,6 +12,10 @@ const server = app.listen(process.env.PORT || 8000, () => {
 const io = socket(server);
 
 app.use(cors());
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+});
 
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const seatsRoutes = require('./routes/seats.routes');
