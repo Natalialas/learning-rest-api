@@ -35,7 +35,6 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
     else if(isTaken(seatId)) return <Button key={seatId} className="seats__seat" disabled color="secondary">{seatId}</Button>;
     else return <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, seatId)}>{seatId}</Button>;
   }
-  
 
   const freeSeatsNumber = () => {
 		let total = 50
