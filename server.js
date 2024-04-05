@@ -1,6 +1,5 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
-const db = require('./db/db');
 const cors = require('cors');
 const path = require('path');
 const socket = require('socket.io');
