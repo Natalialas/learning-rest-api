@@ -4,6 +4,7 @@ const db = require('./db/db');
 const cors = require('cors');
 const path = require('path');
 const socket = require('socket.io');
+const mongoose = require('mongoose');
 
 const app = express();
 const server = app.listen(process.env.PORT || 8000, () => {
@@ -26,6 +27,14 @@ app.use(express.json());
 app.use('/api', testimonialsRoutes);
 app.use('/api', seatsRoutes);
 app.use('/api', concertsRoutes);
+
+mongoose.connect('mongodb://0.0.0.0:27017/NewWaveDB', { useNewUrlParser: true });
+const db = mongoose.connection;
+
+db.once('open', () => {
+  console.log('Connected to the database');
+});
+db.on('error', err => console.log('Error ' + err));
 
 io.on('connection', (socket) => {
     console.log('New socket!');
