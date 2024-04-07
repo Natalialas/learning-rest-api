@@ -18,6 +18,7 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
     setSocket(socket);
     socket.on('seatsUpdated', seatsUpdated => dispatch(loadSeats(seatsUpdated)));
 
+    
     return () => {
       if (socket) {
         socket.disconnect();
