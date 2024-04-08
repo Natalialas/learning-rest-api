@@ -27,7 +27,7 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', seatsRoutes);
 app.use('/api', concertsRoutes);
 
-mongoose.connect('mongodb://0.0.0.0:27017/NewWaveDB', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://natalialaszczkowskax:RUyDWxcxf0aIcr9E@cluster0.7vbtvwi.mongodb.net/NewWaveDB?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
