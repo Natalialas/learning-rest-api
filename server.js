@@ -29,7 +29,7 @@ app.use("/api", concertsRoutes);
 
 mongoose.connect(
   "mongodb+srv://natalialaszczkowskax:" +
-    process.env.DB_PASSWORD +
+    process.env.DB_PASS +
     "@cluster0.7vbtvwi.mongodb.net/NewWaveDB?retryWrites=true&w=majority&appName=Cluster0",
   { useNewUrlParser: true },
 );
