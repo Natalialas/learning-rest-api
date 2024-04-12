@@ -1,6 +1,7 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const cors = require("cors");
+const helmet = require('helmet');
 const path = require("path");
 const socket = require("socket.io");
 const mongoose = require("mongoose");
@@ -11,6 +12,7 @@ const server = app.listen(process.env.PORT || 8000, () => {
 });
 const io = socket(server);
 
+app.use(helmet());
 app.use(cors());
 app.use((req, res, next) => {
   req.io = io;
